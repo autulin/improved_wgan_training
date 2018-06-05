@@ -22,6 +22,8 @@ import functools
 import locale
 locale.setlocale(locale.LC_ALL, '')
 
+from tensorflow.python.client import device_lib
+
 # Download CIFAR-10 (Python version) at
 # https://www.cs.toronto.edu/~kriz/cifar.html and fill in the path to the
 # extracted files here!
@@ -54,9 +56,17 @@ ACGAN_SCALE_G = 0.1 # How to scale generator's ACGAN loss relative to WGAN loss
 if CONDITIONAL and (not ACGAN) and (not NORMALIZATION_D):
     print "WARNING! Conditional model without normalization in D might be effectively unconditional!"
 
-DEVICES = ['/device:GPU:{}'.format(i) for i in xrange(N_GPUS)]
-if len(DEVICES) == 1: # Hack because the code assumes 2 GPUs
-    DEVICES = [DEVICES[0], DEVICES[0]]
+# DEVICES = ['/device:GPU:{}'.format(i) for i in xrange(N_GPUS)]
+# if len(DEVICES) == 1: # Hack because the code assumes 2 GPUs
+#     DEVICES = [DEVICES[0], DEVICES[0]]
+all_devices = device_lib.list_local_devices()
+DEVICES = []
+for device in all_devices:
+    if len(all_devices) > 1 and 'cpu' in device.name:
+        # Use cpu only when we dont have gpus
+        continue
+    print('Using device: ', device.name)
+    DEVICES = [device.name, device.name]
 
 lib.print_model_settings(locals().copy())
 
