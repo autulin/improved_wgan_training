@@ -54,7 +54,7 @@ ACGAN_SCALE_G = 0.1 # How to scale generator's ACGAN loss relative to WGAN loss
 if CONDITIONAL and (not ACGAN) and (not NORMALIZATION_D):
     print "WARNING! Conditional model without normalization in D might be effectively unconditional!"
 
-DEVICES = ['/gpu:{}'.format(i) for i in xrange(N_GPUS)]
+DEVICES = ['/device:GPU:{}'.format(i) for i in xrange(N_GPUS)]
 if len(DEVICES) == 1: # Hack because the code assumes 2 GPUs
     DEVICES = [DEVICES[0], DEVICES[0]]
 
