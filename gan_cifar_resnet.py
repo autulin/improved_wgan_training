@@ -60,6 +60,7 @@ if CONDITIONAL and (not ACGAN) and (not NORMALIZATION_D):
 # if len(DEVICES) == 1: # Hack because the code assumes 2 GPUs
 #     DEVICES = [DEVICES[0], DEVICES[0]]
 all_devices = device_lib.list_local_devices()
+print all_devices
 DEVICES = []
 for device in all_devices:
     if len(all_devices) > 1 and 'CPU' in device.name:
