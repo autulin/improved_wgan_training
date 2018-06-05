@@ -62,7 +62,7 @@ if CONDITIONAL and (not ACGAN) and (not NORMALIZATION_D):
 all_devices = device_lib.list_local_devices()
 DEVICES = []
 for device in all_devices:
-    if len(all_devices) > 1 and 'cpu' in device.name:
+    if len(all_devices) > 1 and 'CPU' in device.name:
         # Use cpu only when we dont have gpus
         continue
     print('Using device: ', device.name)
